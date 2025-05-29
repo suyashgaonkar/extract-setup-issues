@@ -73,8 +73,8 @@ def issues_to_excel(issues, filename="issues_setup_python.xlsx"):
 
     for issue in issues:
         labels = {lbl["name"].lower() for lbl in issue.get("labels", [])}
-        created_at = issue.get("created_at", "")[:10]
-        closed_at = issue.get("closed_at", "")[:10] if issue.get("closed_at") else ""
+        created_at = issue.get("created_at", "")
+        closed_at = issue.get("closed_at", "") if issue.get("closed_at") else ""
 
         # Convert created_at and closed_at to datetime and then to IST
         created_date = datetime.datetime.strptime(created_at, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=pytz.utc).astimezone(IST) if created_at else None
