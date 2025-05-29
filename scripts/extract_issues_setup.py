@@ -21,9 +21,9 @@ if not TOKEN:
 OWNER = os.getenv("OWNER")
 REPO = os.getenv("REPO")
 
-# Calculate date 4 months ago
+# Calculate date 5 months ago
 TODAY_DATE = datetime.datetime.utcnow()
-START_DATE = (TODAY_DATE - datetime.timedelta(days=30 * 4)).isoformat() + "Z"
+START_DATE = (TODAY_DATE - datetime.timedelta(days=30 * 5)).isoformat() + "Z"
 TODAY_DATE = TODAY_DATE.isoformat() + "Z"
 PER_PAGE = 100
 
