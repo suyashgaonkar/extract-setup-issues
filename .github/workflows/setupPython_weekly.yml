@@ -22,15 +22,22 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install dependencies
-        run: pip install openpyxl requests
+      - name: 📦 Install dependencies
+        run: |
+          set -e
+          python -m venv .venv
+          source .venv/bin/activate
+          pip install openpyxl requests
 
       - name: Run issue report script
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OWNER: actions
           REPO: setup-python
-        run: python scripts/extract_issues_setup.py
+        run: |
+          set -e
+          source .venv/bin/activate
+          python scripts/extract_issues_setup.py
         
       - name: 📤 Upload generated Excel file
         uses: actions/upload-artifact@v4
