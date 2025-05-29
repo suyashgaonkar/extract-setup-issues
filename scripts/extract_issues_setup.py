@@ -78,11 +78,17 @@ def issues_to_excel(issues, filename="issues_setup_python.xlsx"):
         closed_at = issue.get("closed_at", "") if issue.get("closed_at") else ""
 
         # Convert created_at and closed_at to datetime and then to IST
-        created_date = datetime.datetime.strptime(created_at, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=pytz.utc).astimezone(IST) if created_at else None
+        created_date = (
+            datetime.datetime.strptime(created_at, "%Y-%m-%dT%H:%M:%SZ")
+            .replace(tzinfo=pytz.utc)
+            .astimezone(IST)
+            if created_at
+            else None
+        )
         closed_date = datetime.datetime.strptime(closed_at, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=pytz.utc).astimezone(IST) if closed_at else None
 
         # Format the dates to YYYY-MM-DD after converting to IST
-        created_at_formatted = created_date.strftime("%Y-%m-%d") if created_date else ""
+        created_at_formatted = created_date.strftime("%Y-%m-%d %H:%M:%S") if created_date else ""
         closed_at_formatted = closed_date.strftime("%Y-%m-%d") if closed_date else ""
 
         # Calculate the month after converting to IST
