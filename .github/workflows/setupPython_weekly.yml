@@ -36,4 +36,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: github-issues-label-flags
-          path: label_flags.xlsx
+          path: issues_setup_python.xlsx
