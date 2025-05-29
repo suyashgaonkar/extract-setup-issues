@@ -4,6 +4,7 @@ import datetime
 import openpyxl
 import time
 from openpyxl.styles import Font
+import pytz 
 
 # -----------------------------------------------------------------------------
 # Script Description:
@@ -22,9 +23,11 @@ OWNER = os.getenv("OWNER")
 REPO = os.getenv("REPO")
 
 # Calculate date 5 months ago
-TODAY_DATE = datetime.datetime.utcnow()
-START_DATE = (TODAY_DATE - datetime.timedelta(days=30 * 5)).isoformat() + "Z"
-TODAY_DATE = TODAY_DATE.isoformat() + "Z"
+IST = pytz.timezone("Asia/Kolkata")
+UTC_NOW = datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
+TODAY_DATE = UTC_NOW.astimezone(IST)
+START_DATE = (TODAY_DATE - datetime.timedelta(days=30 * 5)).isoformat()
+TODAY_DATE = TODAY_DATE.isoformat()
 PER_PAGE = 100
 
 headers = {
