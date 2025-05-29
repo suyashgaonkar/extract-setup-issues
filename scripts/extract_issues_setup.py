@@ -4,7 +4,6 @@ import datetime
 import openpyxl
 import time
 from openpyxl.styles import Font
-import pytz 
 
 # -----------------------------------------------------------------------------
 # Script Description:
@@ -22,12 +21,10 @@ if not TOKEN:
 OWNER = os.getenv("OWNER")
 REPO = os.getenv("REPO")
 
-# Calculate date 5 months ago
-IST = pytz.timezone("Asia/Kolkata")
-UTC_NOW = datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
-TODAY_DATE = UTC_NOW.astimezone(IST)
-START_DATE = (TODAY_DATE - datetime.timedelta(days=30 * 5)).isoformat()
-TODAY_DATE = TODAY_DATE.isoformat()
+# Calculate date 4 months ago
+TODAY_DATE = datetime.datetime.utcnow()
+START_DATE = (TODAY_DATE - datetime.timedelta(days=30 * 4)).isoformat() + "Z"
+TODAY_DATE = TODAY_DATE.isoformat() + "Z"
 PER_PAGE = 100
 
 headers = {
@@ -71,27 +68,17 @@ def issues_to_excel(issues, filename="issues_setup_python.xlsx"):
     ]
     ws.append(headers)
 
+    ist_offset = datetime.timedelta(hours=5, minutes=30)
     for issue in issues:
         labels = {lbl["name"].lower() for lbl in issue.get("labels", [])}
-        # Use the full ISO 8601 datetime string for parsing
-        created_at = issue.get("created_at", "")
-        closed_at = issue.get("closed_at", "") if issue.get("closed_at") else ""
+        created_at_raw = issue.get("created_at")
+        closed_at_raw = issue.get("closed_at")
 
-        # Convert created_at and closed_at to datetime and then to IST
-        created_date = (
-            datetime.datetime.strptime(created_at, "%Y-%m-%dT%H:%M:%SZ")
-            .replace(tzinfo=pytz.utc)
-            .astimezone(IST)
-            if created_at
-            else None
-        )
-        closed_date = datetime.datetime.strptime(closed_at, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=pytz.utc).astimezone(IST) if closed_at else None
+        created_date = datetime.datetime.strptime(created_at_raw, "%Y-%m-%dT%H:%M:%SZ") + ist_offset if created_at_raw else None
+        closed_date = datetime.datetime.strptime(closed_at_raw, "%Y-%m-%dT%H:%M:%SZ") + ist_offset if closed_at_raw else None
 
-        # Format the dates to YYYY-MM-DD after converting to IST
-        created_at_formatted = created_date.strftime("%Y-%m-%d") if created_date else ""
-        closed_at_formatted = closed_date.strftime("%Y-%m-%d") if closed_date else ""
-
-        # Calculate the month after converting to IST
+        created_at = created_date.strftime("%Y-%m-%d") if created_date else ""
+        closed_at = closed_date.strftime("%Y-%m-%d") if closed_date else ""
         created_month = created_date.strftime("%b-%Y") if created_date else ""
         closed_month = closed_date.strftime("%b-%Y") if closed_date else ""
         days_taken = (closed_date - created_date).days if created_date and closed_date else ""
@@ -103,9 +90,9 @@ def issues_to_excel(issues, filename="issues_setup_python.xlsx"):
             issue_number,
             issue["title"],
             issue["state"],
-            created_at_formatted,  # Use the formatted date
+            created_at,
             created_month,
-            closed_at_formatted,  # Use the formatted date
+            closed_at,
             closed_month,
             days_taken,
             ", ".join(labels)
