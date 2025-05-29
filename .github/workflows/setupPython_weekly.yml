@@ -30,4 +30,4 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           OWNER: actions
           REPO: setup-python
-        run: python extract_issues_setup.py
+        run: python scripts/extract_issues_setup.py
