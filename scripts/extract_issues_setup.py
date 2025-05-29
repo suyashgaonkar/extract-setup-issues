@@ -73,12 +73,17 @@ def issues_to_excel(issues, filename="issues_setup_python.xlsx"):
 
     for issue in issues:
         labels = {lbl["name"].lower() for lbl in issue.get("labels", [])}
+        # Use the full ISO 8601 datetime string for parsing
         created_at = issue.get("created_at", "")
         closed_at = issue.get("closed_at", "") if issue.get("closed_at") else ""
 
         # Convert created_at and closed_at to datetime and then to IST
         created_date = datetime.datetime.strptime(created_at, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=pytz.utc).astimezone(IST) if created_at else None
         closed_date = datetime.datetime.strptime(closed_at, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=pytz.utc).astimezone(IST) if closed_at else None
+
+        # Format the dates to YYYY-MM-DD after converting to IST
+        created_at_formatted = created_date.strftime("%Y-%m-%d") if created_date else ""
+        closed_at_formatted = closed_date.strftime("%Y-%m-%d") if closed_date else ""
 
         # Calculate the month after converting to IST
         created_month = created_date.strftime("%b-%Y") if created_date else ""
@@ -92,9 +97,9 @@ def issues_to_excel(issues, filename="issues_setup_python.xlsx"):
             issue_number,
             issue["title"],
             issue["state"],
-            created_at,
+            created_at_formatted,  # Use the formatted date
             created_month,
-            closed_at,
+            closed_at_formatted,  # Use the formatted date
             closed_month,
             days_taken,
             ", ".join(labels)
