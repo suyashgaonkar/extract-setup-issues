@@ -27,7 +27,7 @@ jobs:
 
       - name: Run issue report script
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OWNER: actions
           REPO: setup-python
         run: python scripts/extract_issues_setup.py
