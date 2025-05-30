@@ -1,4 +1,4 @@
-name: Weekly GitHub Issues Report
+name: Weekly GitHub Issues Report - Stale
 
 on:
   push:
