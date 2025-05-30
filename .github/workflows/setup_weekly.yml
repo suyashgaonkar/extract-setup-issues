@@ -33,7 +33,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OWNER: actions
-          REPO: setup-python
+          REPO: setup-node
         run: |
           set -e
           source .venv/bin/activate
