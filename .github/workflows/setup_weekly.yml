@@ -27,7 +27,7 @@ jobs:
           set -e
           python -m venv .venv
           source .venv/bin/activate
-          pip install openpyxl requests pytz
+          pip install openpyxl requests 
 
       - name: Run issue report script
         env:
