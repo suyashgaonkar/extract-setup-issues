@@ -21,9 +21,21 @@ if not TOKEN:
 OWNER = os.getenv("OWNER")
 REPO = os.getenv("REPO")
 
+# Define the starting date (January 2019)
+start_year = 2019
+start_month = 1
+
+# Get the current date
+current_date = datetime.now()
+current_year = current_date.year
+current_month = current_date.month
+
+# Calculate the total number of months
+months = (current_year - start_year) * 12 + (current_month - start_month)
+
 # Calculate date 5 months ago
 TODAY_DATE = datetime.datetime.utcnow()
-START_DATE = (TODAY_DATE - datetime.timedelta(days=30 * 5)).isoformat() + "Z"
+START_DATE = (TODAY_DATE - datetime.timedelta(days=30 * months)).isoformat() + "Z"
 TODAY_DATE = TODAY_DATE.isoformat() + "Z"
 PER_PAGE = 100
 

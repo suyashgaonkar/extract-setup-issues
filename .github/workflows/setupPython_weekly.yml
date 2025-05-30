@@ -37,10 +37,12 @@ jobs:
         run: |
           set -e
           source .venv/bin/activate
-          python scripts/extract_issues_setup.py
+          python scripts/test.py
+
         
-      - name: 📤 Upload generated Excel file
-        uses: actions/upload-artifact@v4
-        with:
-          name: github-issues-label-flags
-          path: issues_setup_python.xlsx
+      # - name: 📤 Upload generated Excel file
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: github-issues-label-flags
+      #     path: issues_setup_python.xlsx
+      # python scripts/extract_issues_setup.py
