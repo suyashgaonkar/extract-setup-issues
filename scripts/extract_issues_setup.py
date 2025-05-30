@@ -26,7 +26,7 @@ start_year = 2019
 start_month = 1
 
 # Get the current date
-current_date = datetime.now()
+current_date = datetime.datetime.now()
 current_year = current_date.year
 current_month = current_date.month
 
