@@ -1,4 +1,4 @@
-name: Weekly GitHub Issues Report - Stale
+name: Weekly GitHub Issues Report
 
 on:
   push:
@@ -17,8 +17,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Stale
-        uses: actions/stale@v9
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
@@ -33,7 +33,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OWNER: actions
-          REPO: setup-node
+          REPO: stale
         run: |
           set -e
           source .venv/bin/activate
