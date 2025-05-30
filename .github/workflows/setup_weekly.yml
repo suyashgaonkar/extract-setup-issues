@@ -17,8 +17,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Stale
+        uses: actions/stale@v9
         with:
           python-version: '3.10'
 
